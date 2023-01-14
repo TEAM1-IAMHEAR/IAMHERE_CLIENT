@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import { Chip, MenuItem, Modal, Select } from "@mui/material";
+import { Chip, Divider, MenuItem, Modal, Select } from "@mui/material";
 import { toast } from "react-toastify";
 
 import Profile from "./chat/Profile";
@@ -13,6 +13,15 @@ const SideBar = () => {
   const [open, setOpen] = useState(false);
   const [keyword, setKeyWord] = useState("");
   const [selectValue, setSelectValue] = useState("ENFP");
+  const [data, setData] = useState(chatListData);
+
+  const isLogin = localStorage.getItem("isLogin");
+
+  useEffect(() => {
+    if (keyword !== "") {
+      setData(chatListData.filter((item) => item.name === keyword));
+    } else setData(chatListData);
+  }, [keyword]);
 
   const MBTIList = [
     "ISTP",
@@ -35,50 +44,82 @@ const SideBar = () => {
     <>
       {/* <SignIn open={} /> */}
       <SignUpPage open={open} setOpen={setOpen} />
+
       <SContainer>
         <SBox>
           <SProfile>
-            <div className="info-box">
-              <img
-                src="https://item.kakaocdn.net/do/fd0050f12764b403e7863c2c03cd4d2d7154249a3890514a43687a85e6b6cc82"
-                alt=""
-              />
-              <div className="profile-text">
-                <p>
-                  <span className="bold">신짱구 </span>
-                  <span>(19)</span>
-                </p>
-                <p>ENFP</p>
+            {isLogin && (
+              <div className="info-box">
+                {/*  <img
+                  src="https://www.urbanbrush.net/web/wp-content/uploads/edd/2022/10/urbanbrush-20221031104718171735.jpg"
+                  alt=""
+                />
+                <div className="profile-text">
+                  <p>
+                    <span className="bold">기준</span>
+                    <span>(19)</span>
+                  </p>
+                  <p>INTJ</p>
+                </div> */}
+                <img
+                  src="https://item.kakaocdn.net/do/fd0050f12764b403e7863c2c03cd4d2d7154249a3890514a43687a85e6b6cc82"
+                  alt=""
+                />
+                <div className="profile-text">
+                  <p>
+                    <span className="bold">{localStorage.getItem("name")}</span>
+                    <span>(19)</span>
+                  </p>
+                  <p>ENFP</p>
+                </div>
               </div>
-            </div>
+            )}
+
             <span className="logout" onClick={() => setOpen(true)}>
               로그인
             </span>
           </SProfile>
-          <SSearchBox>
-            <Chip
-              label={selectValue}
-              sx={{ color: "white" }}
-              variant="filled"
-              color="primary"
-            />
-            <Select value={selectValue}>
+          {isLogin ? (
+            <>
+              <SSearchBox>
+                <Chip
+                  label={selectValue}
+                  sx={{ color: "white" }}
+                  variant="filled"
+                  color="primary"
+                />
+                {/* <Select value={selectValue}>
               {MBTIList.map((item) => (
                 <MenuItem onClick={() => setSelectValue(item)}>{item}</MenuItem>
               ))}
-            </Select>
+            </Select> */}
 
-            <input
-              placeholder="같이 이야기 할 친구를 찾아보세요"
-              value={keyword}
-              onChange={(e) => setKeyWord(e.target.value)}
-            />
-          </SSearchBox>
-          <SList>
-            {chatListData.map((item) => (
-              <ChatRoomItem chat={item} />
-            ))}
-          </SList>
+                <input
+                  placeholder="같이 이야기 할 친구를 찾아보세요"
+                  value={keyword}
+                  onChange={(e) => setKeyWord(e.target.value)}
+                />
+              </SSearchBox>
+              <SList>
+                {data.map((item) => (
+                  <>
+                    <ChatRoomItem chat={item} />
+                  </>
+                ))}
+              </SList>
+            </>
+          ) : (
+            <div
+              style={{
+                margin: "0 auto",
+                width: "100%",
+                textAlign: "center",
+                paddingTop: "107%",
+              }}
+            >
+              로그인 후 이용해주세요.
+            </div>
+          )}
         </SBox>
       </SContainer>
     </>

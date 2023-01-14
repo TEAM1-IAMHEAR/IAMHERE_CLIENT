@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import styled from "@emotion/styled";
 import { ChatDto } from "../../services/user";
+import { Divider } from "@mui/material";
 
 interface Props {
   chat: {
@@ -23,7 +24,7 @@ const ChatRoomItem: FC<Props> = ({ chat }) => {
           <p>{chat.currentMessage}</p>
         </div>
       </div>
-      <p>{chat.time}</p>
+      <p id="time">{chat.time}</p>
     </Container>
   );
 };
@@ -31,6 +32,7 @@ const ChatRoomItem: FC<Props> = ({ chat }) => {
 export default ChatRoomItem;
 
 const Container = styled.div`
+  padding: 10px 0;
   margin: auto;
   width: 100%;
   max-width: 320px;
@@ -40,8 +42,11 @@ const Container = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid #f2f2f2;
   cursor: pointer;
   :hover {
+    background-color: #f2f2f2;
+    transition: all 0.5s;
   }
 
   .profile-box {
@@ -54,6 +59,7 @@ const Container = styled.div`
       height: 40px;
       border-radius: 50px;
       object-fit: cover;
+      border: 1px solid #f2f2f2;
     }
 
     .text-box {

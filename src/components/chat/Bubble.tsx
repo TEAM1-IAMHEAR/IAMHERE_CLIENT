@@ -5,11 +5,13 @@ import axios from "axios";
 interface Props {
   content: string;
   textRead: (title: string) => void;
+  key: number;
+  isMine: boolean;
 }
 
-const Bubble: FC<Props> = ({ content, textRead }) => {
+const Bubble: FC<Props> = ({ content, textRead, isMine }) => {
   return (
-    <BubbleBox isMine={true} onClick={() => textRead(content)}>
+    <BubbleBox isMine={isMine} onClick={() => textRead(content)}>
       <div className="bubble">{content}</div>
     </BubbleBox>
   );

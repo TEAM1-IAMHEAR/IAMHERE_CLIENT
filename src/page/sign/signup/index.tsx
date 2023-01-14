@@ -44,7 +44,9 @@ const SignUpPage = ({ open, setOpen }: Props) => {
   }, [inputs]);
 
   const local = () => {
-    toast("회원가입에 성공했습니다.");
+    toast("로그인에 성공했습니다.");
+    localStorage.setItem("isLogin", Boolean(true));
+    localStorage.setItem("name", inputs.name);
 
     setTimeout(() => {
       setOpen(false);
@@ -72,7 +74,7 @@ const SignUpPage = ({ open, setOpen }: Props) => {
             value={inputs.password}
             onChange={(e) => onChangeHandler(e)}
           />
-          <S.NameInput
+          {/* <S.NameInput
             border={age}
             type="text"
             placeholder="나이"
@@ -95,11 +97,11 @@ const SignUpPage = ({ open, setOpen }: Props) => {
             name="profile"
             value={inputs.profile}
             onChange={(e) => onChangeHandler(e)}
-          />
+          /> */}
         </div>
 
-        <button onClick={local}>회원가입</button>
-        <a href="/signin">이미 회원이신가요?</a>
+        <button onClick={local}>로그인</button>
+        {/* <a href="/signin">이미 회원이신가요?</a> */}
       </S.SignBox>
     </Modal>
   );
